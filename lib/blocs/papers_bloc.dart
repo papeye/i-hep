@@ -11,7 +11,10 @@ class PapersBloc extends Bloc<PapersEvent, PapersFetchState> {
         emit(const PapersFetchLoading());
 
         try {
-          final papers = await _papersRepo.getTopCitedPapers();
+          final papers = await _papersRepo.getTopCitedPapers(
+            size: event.size,
+            page: event.page,
+          );
 
           emit(PapersFetchSuccess(papers));
         } catch (e) {
@@ -51,5 +54,10 @@ sealed class PapersEvent {
 }
 
 class PapersFetchRequested extends PapersEvent {
-  const PapersFetchRequested();
+  const PapersFetchRequested({
+    required this.size,
+    required this.page,
+  });
+  final int size;
+  final int page;
 }
