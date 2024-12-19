@@ -15,7 +15,7 @@ class IHepApiService {
     final client = http.Client();
     try {
       final url = Uri.parse(
-        '$_baseUrl/literature?sort=mostrecent&size=$size&page=$page&q=topcite 10',
+        '$_baseUrl/literature?sort=mostcited&size=$size&page=$page&q=topcite 10',
       );
 
       final response = await client.get(url);

@@ -11,7 +11,8 @@ final router = GoRouter(
       builder: (_, __) => const HomeScreen(),
     ),
     GoRoute(
-      path: '/paper',
+      path: '/paper/:title',
+      name: 'paper',
       builder: (_, state) {
         final paper = state.extra! as Paper;
 
@@ -23,8 +24,9 @@ final router = GoRouter(
 
 extension Navigator on BuildContext {
   void goHome() => router.go('/');
-  void goPaper(Paper paper) => router.go(
-        '/paper',
+  void goPaper(Paper paper) => router.goNamed(
+        'paper',
+        pathParameters: {'title': paper.title},
         extra: paper,
       );
 }

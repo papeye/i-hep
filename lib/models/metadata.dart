@@ -8,6 +8,7 @@ class Metadata {
     required this.journalVolume,
     required this.articleId,
     required this.titles,
+    required this.id,
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) {
@@ -26,6 +27,7 @@ class Metadata {
       journalVolume: json['journal_volume'] as String? ?? '',
       articleId: json['artid'] as String? ?? '',
       titles: titles,
+      id: json['id'] as String? ?? '',
     );
   }
 
@@ -36,4 +38,7 @@ class Metadata {
   final String journalVolume;
   final String articleId;
   final List<String> titles;
+  final String id;
+
+  String get title => titles.first.isNotEmpty ? titles.first : 'No title';
 }

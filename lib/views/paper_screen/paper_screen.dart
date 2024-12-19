@@ -13,7 +13,7 @@ class PaperScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Paper ID: ${paper.id}'),
+            Text(paper.title),
             Text('Created: ${paper.created}'),
           ],
         ),
