@@ -15,4 +15,6 @@ class Paper {
 
   final String created;
   final Metadata metadata;
+
+  String get id => metadata.articleId;
 }

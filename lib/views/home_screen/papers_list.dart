@@ -5,6 +5,7 @@ import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper.dart';
 import 'package:ihep/repositories/papers_repository.dart';
+import 'package:ihep/router.dart';
 import 'package:ihep/services/ihep_service.dart';
 
 class PapersList extends StatelessWidget {
@@ -103,6 +104,7 @@ class _PaperTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () => context.goPaper(paper),
       tileColor: Colors.grey[200],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(paper.metadata.titles.first),
