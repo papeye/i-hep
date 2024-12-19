@@ -8,14 +8,14 @@ class IHepApiService {
 
   static const _baseUrl = 'https://inspirehep.net/api';
 
-  Future<List<Paper>> fetchTopCitedLiterature({
-    int size = 10,
-    int page = 1,
+  Future<List<Paper>> fetchTopCitedPapers({
+    required int size,
+    required int page,
   }) async {
     final client = http.Client();
     try {
       final url = Uri.parse(
-        '$_baseUrl/literature?sort=mostrecent&size=$size&page=$page&q=topcite 1000',
+        '$_baseUrl/literature?sort=mostrecent&size=$size&page=$page&q=topcite 10',
       );
 
       final response = await client.get(url);

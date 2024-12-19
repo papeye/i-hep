@@ -14,5 +14,5 @@ class Paper {
   }
 
   final String created;
-  final Metadata? metadata;
+  final Metadata metadata;
 }

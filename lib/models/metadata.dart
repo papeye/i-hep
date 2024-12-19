@@ -7,11 +7,16 @@ class Metadata {
     required this.journalTitle,
     required this.journalVolume,
     required this.articleId,
+    required this.titles,
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) {
     final authors = (json['authors'] as List<dynamic>)
         .map((e) => Author.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+    final titles = (json['titles'] as List<dynamic>)
+        .map((e) => (e as Map<String, dynamic>)['title'] as String)
         .toList();
 
     return Metadata._(
@@ -20,6 +25,7 @@ class Metadata {
       journalTitle: json['journal_title'] as String? ?? '',
       journalVolume: json['journal_volume'] as String? ?? '',
       articleId: json['artid'] as String? ?? '',
+      titles: titles,
     );
   }
 
@@ -29,4 +35,5 @@ class Metadata {
   final String journalTitle;
   final String journalVolume;
   final String articleId;
+  final List<String> titles;
 }

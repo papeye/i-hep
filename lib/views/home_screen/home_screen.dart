@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:ihep/views/home_screen/papers_list.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -22,7 +23,10 @@ class HomeScreen extends HookWidget {
         controller: tabController,
         children: [
           for (final tab in HomeScreenTab.values)
-            Center(child: Icon(tab.iconData)),
+            switch (tab) {
+              HomeScreenTab.list => const PapersList(),
+              _ => const Center(child: Text('Dashboard')),
+            },
         ],
       ),
     );
