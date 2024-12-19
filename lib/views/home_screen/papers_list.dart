@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
+import 'package:ihep/models/paper.dart';
 import 'package:ihep/repositories/papers_repository.dart';
 import 'package:ihep/services/ihep_service.dart';
 
@@ -30,8 +30,8 @@ class _PapersList extends HookWidget {
   Widget build(BuildContext context) {
     final page = useState(1);
 
-    void nextPage() => page.value = page.value + 1; //TODO MAybey us useCallback
-    void previousPage() => page.value = page.value - 1;
+    final nextPage = useCallback(() => page.value = page.value + 1, [page]);
+    final previousPage = useCallback(() => page.value = page.value - 1, [page]);
 
     final bloc = useBloc(() => PapersBloc(papersRepo: context.read()));
 
@@ -71,20 +71,31 @@ class _PapersList extends HookWidget {
               const Center(child: CircularProgressIndicator()),
             final PapersFetchFailure state =>
               Center(child: Text('Error: $state.error')),
-            final PapersFetchSuccess state => ListView.builder(
-                itemCount: state.papers.length,
-                padding: const EdgeInsets.all(8),
-                itemBuilder: (context, index) {
-                  final paper = state.papers[index];
-
-                  return ListTile(
-                    title: Text(paper.metadata.titles.first),
-                  );
-                },
-              )
+            final PapersFetchSuccess state => _PaperListBody(state.papers),
           },
         ),
       ],
+    );
+  }
+}
+
+class _PaperListBody extends StatelessWidget {
+  const _PaperListBody(this.papers);
+
+  final List<Paper> papers;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: papers.length,
+      padding: const EdgeInsets.all(8),
+      itemBuilder: (context, index) {
+        final paper = papers[index];
+
+        return ListTile(
+          title: Text(paper.metadata.titles.first),
+        );
+      },
     );
   }
 }
