@@ -86,16 +86,31 @@ class _PaperListBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: papers.length,
-      padding: const EdgeInsets.all(8),
-      itemBuilder: (context, index) {
-        final paper = papers[index];
+      padding: const EdgeInsets.all(32),
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      itemBuilder: (_, index) => _PaperTile(papers[index]),
+    );
+  }
+}
 
-        return ListTile(
-          title: Text(paper.metadata.titles.first),
-        );
-      },
+class _PaperTile extends StatelessWidget {
+  const _PaperTile(this.paper);
+
+  final Paper paper;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      tileColor: Colors.grey[200],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      title: Text(paper.metadata.titles.first),
+      subtitle: Text(
+        paper.metadata.authors.map((e) => e.fullName).join('; '),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      ),
     );
   }
 }
