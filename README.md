@@ -19,7 +19,7 @@ This project uses the following libraries:
 
 - [bloc](https://pub.dev/packages/bloc) - For data-related state management.
 - [http](https://pub.dev/packages/http) - For making HTTP requests.
-- [flutter_hooks](https://pub.dev/packages/flutter_hooks) - Provides React-style hooks for managing widget lifecycles.
+- [flutter_hooks](https://pub.dev/packages/flutter_hooks) - for widgets state managment.
 - [go_router](https://pub.dev/packages/go_router) - For declarative routing and navigation.
 
 For the complete list of dependencies, refer to the [`pubspec.yaml`](pubspec.yaml) file.
