@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
-import 'package:ihep/models/paper.dart';
+import 'package:ihep/models/paper_data.dart';
 import 'package:ihep/repositories/papers_repository.dart';
 import 'package:ihep/router.dart';
 import 'package:ihep/services/ihep_service.dart';
@@ -83,7 +83,7 @@ class _PapersList extends HookWidget {
 class _PaperListBody extends StatelessWidget {
   const _PaperListBody(this.papers);
 
-  final List<Paper> papers;
+  final List<PaperData> papers;
 
   @override
   Widget build(BuildContext context) {
@@ -99,17 +99,17 @@ class _PaperListBody extends StatelessWidget {
 class _PaperTile extends StatelessWidget {
   const _PaperTile(this.paper);
 
-  final Paper paper;
+  final PaperData paper;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => context.goPaper(paper),
+      onTap: () => context.goPaper(paper.id),
       tileColor: Colors.grey[200],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      title: Text(paper.metadata.titles.first),
+      title: Text(paper.titles.first),
       subtitle: Text(
-        paper.metadata.authors.map((e) => e.fullName).join('; '),
+        paper.authors.join('; '),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       ),

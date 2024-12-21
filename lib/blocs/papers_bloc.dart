@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ihep/models/paper.dart';
+import 'package:ihep/models/paper_data.dart';
 import 'package:ihep/repositories/papers_repository.dart';
 
 class PapersBloc extends Bloc<PapersEvent, PapersFetchState> {
@@ -41,7 +41,7 @@ class PapersFetchLoading extends PapersFetchState {
 
 class PapersFetchSuccess extends PapersFetchState {
   const PapersFetchSuccess(this.papers);
-  final List<Paper> papers;
+  final List<PaperData> papers;
 }
 
 class PapersFetchFailure extends PapersFetchState {
