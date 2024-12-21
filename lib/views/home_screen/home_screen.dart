@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ihep/router.dart';
+import 'package:ihep/views/home_screen/dashboard_view.dart';
 import 'package:ihep/views/home_screen/papers_list.dart';
 
 class HomeScreen extends HookWidget {
@@ -15,6 +16,8 @@ class HomeScreen extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
+        title: const Text('IHEP'),
+        centerTitle: false,
         bottom: TabBar(
           controller: tabController,
           onTap: (index) => HomeScreenTab.values[index].onTap(context),
@@ -30,7 +33,7 @@ class HomeScreen extends HookWidget {
           for (final tab in HomeScreenTab.values)
             switch (tab) {
               HomeScreenTab.list => const PapersList(),
-              _ => const Center(child: Text('Dashboard')),
+              HomeScreenTab.dashboard => const DashboardView(),
             },
         ],
       ),

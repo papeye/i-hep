@@ -54,4 +54,50 @@ class IHepApiService {
       rethrow;
     }
   }
+
+  Future<int> _fetchTotalCount(_RecordType recordType) async {
+    final client = http.Client();
+
+    try {
+      final url =
+          Uri.parse('$_baseUrl/${recordType.pathSegment}?fields=none&size=1');
+
+      final response = await client.get(url);
+
+      final data = (json.decode(response.body) as Map<String, dynamic>)['hits']
+          as Map<String, dynamic>;
+
+      final total = data['total'] as int;
+
+      return total;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<int> fetchTotalPapersCount() =>
+      _fetchTotalCount(_RecordType.literature);
+
+  Future<int> fetchTotalAuthorsCount() => _fetchTotalCount(_RecordType.authors);
+
+  Future<int> fetchTotalInstitutionsCount() =>
+      _fetchTotalCount(_RecordType.institutions);
+
+  Future<int> fetchTotalConferencesCount() =>
+      _fetchTotalCount(_RecordType.conferences);
+}
+
+enum _RecordType {
+  literature,
+  authors,
+  institutions,
+  conferences;
+
+  String get pathSegment => switch (this) {
+        literature => 'literature',
+        authors => 'authors',
+        institutions => 'institutions',
+        conferences => 'conferences',
+      };
 }

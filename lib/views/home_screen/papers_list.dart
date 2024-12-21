@@ -4,26 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper_data.dart';
-import 'package:ihep/repositories/papers_repository.dart';
 import 'package:ihep/router.dart';
-import 'package:ihep/services/ihep_service.dart';
 
-class PapersList extends StatelessWidget {
+class PapersList extends HookWidget {
   const PapersList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (_) => const PapersRepository(
-        apiService: IHepApiService(),
-      ),
-      child: const _PapersList(),
-    );
-  }
-}
-
-class _PapersList extends HookWidget {
-  const _PapersList();
 
   static const _defaultPageSize = 10;
 
