@@ -86,11 +86,7 @@ class _PaperScreenSuccess extends StatelessWidget {
         if (paper.metadata.journalTitle.isNotEmpty)
           Text(paper.metadata.journalTitle),
         if (paper.metadata.abstracts.isNotEmpty)
-          Expanded(
-            child: SingleChildScrollView(
-              child: Text(paper.metadata.abstracts.first),
-            ),
-          ),
+          Text(paper.metadata.abstracts.first),
       ].spaced(16),
     );
   }
