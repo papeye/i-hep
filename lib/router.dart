@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ihep/models/paper.dart';
 import 'package:ihep/views/home_screen/home_screen.dart';
 import 'package:ihep/views/paper_screen/paper_screen.dart';
 
 final router = GoRouter(
+  initialLocation: '/dashboard',
   routes: [
     GoRoute(
-      path: '/',
-      builder: (_, __) => const HomeScreen(),
+      path: '/:pathSegment',
+      name: 'home',
+      builder: (_, state) {
+        final tab = HomeScreenTab.values.firstWhere(
+          (e) => state.pathParameters['pathSegment']! == e.pathSegment,
+        );
+
+        return HomeScreen(tab);
+      },
     ),
     GoRoute(
       path: '/paper/:id',
@@ -23,7 +30,11 @@ final router = GoRouter(
 );
 
 extension Navigator on BuildContext {
-  void goHome() => router.go('/');
+  void goList() =>
+      router.goNamed('home', pathParameters: {'pathSegment': 'list'});
+  void goDashboard() =>
+      router.goNamed('home', pathParameters: {'pathSegment': 'dashboard'});
+
   void goPaper(String id) => router.goNamed(
         'paper',
         pathParameters: {'id': id},

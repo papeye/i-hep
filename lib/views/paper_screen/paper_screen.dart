@@ -57,8 +57,7 @@ class _PaperScreenSuccess extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
             children: [
               Text(
                 paper.title,
