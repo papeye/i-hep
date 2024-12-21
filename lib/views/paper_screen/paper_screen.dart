@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ihep/blocs/paper_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper.dart';
-import 'package:ihep/router.dart';
 import 'package:ihep/utils/spaced.dart';
 
 class PaperScreen extends HookWidget {

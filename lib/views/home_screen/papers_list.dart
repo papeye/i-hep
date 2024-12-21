@@ -84,18 +84,23 @@ class _ResultsPerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
       children: [
         const Text('Results per page:'),
-        for (final size in _allowedSizes)
-          TextButton(
-            onPressed: () => onPressed(size),
-            child: Text(
-              '$size',
-              style: TextStyle(color: size == current ? Colors.blue : null),
-            ),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (final size in _allowedSizes)
+              TextButton(
+                onPressed: () => onPressed(size),
+                child: Text(
+                  '$size',
+                  style: TextStyle(color: size == current ? Colors.blue : null),
+                ),
+              ),
+          ],
+        ),
       ],
     );
   }
