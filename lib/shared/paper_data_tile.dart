@@ -17,8 +17,11 @@ class PaperDataTile extends StatelessWidget {
     return Material(
       child: ListTile(
         onTap: () => context.goPaper(paper.id),
-        tileColor: Colors.grey[200],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        tileColor: Colors.white30,
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: Colors.deepPurple),
+          borderRadius: BorderRadius.circular(8),
+        ),
         title: Text(paper.titles.first),
         subtitle: Text(
           paper.authors.join('; '),
