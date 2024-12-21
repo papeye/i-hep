@@ -20,7 +20,7 @@ class DashboardBloc extends Bloc<PaperEvent, DashboardState> {
 
           final conferences = await _papersRepo.getTotalConferencesCount();
 
-          final topCited = await _papersRepo.getTopCitedPapers(size: 3);
+          final topCited = await _papersRepo.getTopCitedPapers(size: 10);
 
           final data = DashboardData(
             totalPapersCount: papersCount,
