@@ -5,6 +5,7 @@ import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper_data.dart';
 import 'package:ihep/router.dart';
+import 'package:ihep/shared/paper_data_tile.dart';
 
 class PapersList extends HookWidget {
   const PapersList({super.key});
@@ -32,32 +33,58 @@ class PapersList extends HookWidget {
 
     final state = useBlocState(bloc);
 
-    return Column(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 32, top: 16),
+      child: Column(
+        children: [
+          const Text('Most recent papers', style: TextStyle(fontSize: 24)),
+          const SizedBox(height: 16),
+          Expanded(
+            child: switch (state) {
+              PapersFetchInitial() =>
+                const Center(child: CircularProgressIndicator()),
+              PapersFetchLoading() =>
+                const Center(child: CircularProgressIndicator()),
+              PapersFetchFailure(:final error) =>
+                Center(child: Text('Error: $error')),
+              PapersFetchSuccess(:final papers) => _PaperListBody(papers),
+            },
+          ),
+          _PageSwitcher(
+            page: page.value,
+            nextPage: nextPage,
+            previousPage: previousPage,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PageSwitcher extends StatelessWidget {
+  const _PageSwitcher({
+    required this.page,
+    required this.nextPage,
+    required this.previousPage,
+  });
+
+  final VoidCallback nextPage;
+  final VoidCallback previousPage;
+  final int page;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: previousPage,
-              icon: const Icon(Icons.arrow_back),
-            ),
-            Text('Page: ${page.value}'),
-            IconButton(
-              onPressed: nextPage,
-              icon: const Icon(Icons.arrow_forward),
-            ),
-          ],
+        IconButton(
+          onPressed: previousPage,
+          icon: const Icon(Icons.arrow_back),
         ),
-        Expanded(
-          child: switch (state) {
-            PapersFetchInitial() =>
-              const Center(child: CircularProgressIndicator()),
-            PapersFetchLoading() =>
-              const Center(child: CircularProgressIndicator()),
-            PapersFetchFailure(:final error) =>
-              Center(child: Text('Error: $error')),
-            PapersFetchSuccess(:final papers) => _PaperListBody(papers),
-          },
+        Text('Page: $page'),
+        IconButton(
+          onPressed: nextPage,
+          icon: const Icon(Icons.arrow_forward),
         ),
       ],
     );
@@ -75,28 +102,7 @@ class _PaperListBody extends StatelessWidget {
       itemCount: papers.length,
       padding: const EdgeInsets.all(32),
       separatorBuilder: (_, __) => const SizedBox(height: 8),
-      itemBuilder: (_, index) => _PaperTile(papers[index]),
-    );
-  }
-}
-
-class _PaperTile extends StatelessWidget {
-  const _PaperTile(this.paper);
-
-  final PaperData paper;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () => context.goPaper(paper.id),
-      tileColor: Colors.grey[200],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      title: Text(paper.titles.first),
-      subtitle: Text(
-        paper.authors.join('; '),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-      ),
+      itemBuilder: (_, index) => PaperDataTile(papers[index]),
     );
   }
 }

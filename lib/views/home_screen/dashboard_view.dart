@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ihep/blocs/dashboard_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
+import 'package:ihep/shared/paper_data_tile.dart';
 import 'package:ihep/utils/spaced.dart';
 
 class DashboardView extends HookWidget {
@@ -38,23 +39,44 @@ class _DashboardViewBody extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _TitleWithNumber(
-          title: 'Total papers',
-          number: data.totalPapersCount,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _TitleWithNumber(
+              title: 'Total papers',
+              number: data.totalPapersCount,
+            ),
+            _TitleWithNumber(
+              title: 'Total authors',
+              number: data.totalAuthorsCount,
+            ),
+            _TitleWithNumber(
+              title: 'Total institutions',
+              number: data.totalInstitutionsCount,
+            ),
+            _TitleWithNumber(
+              title: 'Total conferences',
+              number: data.totalConferencesCount,
+            ),
+          ].spaced(8),
         ),
-        _TitleWithNumber(
-          title: 'Total authors',
-          number: data.totalAuthorsCount,
+        const SizedBox(height: 32),
+        const Text(
+          'Top cited papers:',
+          style: TextStyle(fontSize: 24),
         ),
-        _TitleWithNumber(
-          title: 'Total institutions',
-          number: data.totalInstitutionsCount,
-        ),
-        _TitleWithNumber(
-          title: 'Total conferences',
-          number: data.totalConferencesCount,
-        ),
-      ].spaced(8),
+        const SizedBox(height: 16),
+        for (final paper in data.topCited) ...[
+          SizedBox(
+            width: 400,
+            child: PaperDataTile(
+              paper,
+              showCitations: true,
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ],
     );
   }
 }

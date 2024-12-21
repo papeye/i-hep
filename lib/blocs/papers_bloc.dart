@@ -11,7 +11,7 @@ class PapersBloc extends Bloc<PapersEvent, PapersFetchState> {
         emit(const PapersFetchLoading());
 
         try {
-          final papers = await _papersRepo.getTopCitedPapers(
+          final papers = await _papersRepo.getMostRecentPapers(
             size: event.size,
             page: event.page,
           );

@@ -7,14 +7,14 @@ class PapersRepository {
       : _apiService = apiService;
   final IHepApiService _apiService;
 
-  Future<List<PaperData>> getTopCitedPapers({
-    int size = 10,
-    int page = 1,
+  Future<List<PaperData>> getMostRecentPapers({
+    required int size,
+    required int page,
   }) =>
-      _apiService.fetchTopCitedPapers(
-        size: size,
-        page: page,
-      );
+      _apiService.fetchMostRecentPapers(size, page);
+
+  Future<List<PaperData>> getTopCitedPapers({required int size}) =>
+      _apiService.fetchTopCitedPapers(size: size);
 
   Future<Paper> getSpecificPaper(String id) => _apiService.fetchSpecific(id);
 

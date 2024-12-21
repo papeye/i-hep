@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ihep/models/paper_data.dart';
 import 'package:ihep/repositories/papers_repository.dart';
 
 class DashboardBloc extends Bloc<PaperEvent, DashboardState> {
@@ -19,11 +20,14 @@ class DashboardBloc extends Bloc<PaperEvent, DashboardState> {
 
           final conferences = await _papersRepo.getTotalConferencesCount();
 
+          final topCited = await _papersRepo.getTopCitedPapers(size: 3);
+
           final data = DashboardData(
             totalPapersCount: papersCount,
             totalAuthorsCount: authors,
             totalInstitutionsCount: institutions,
             totalConferencesCount: conferences,
+            topCited: topCited,
           );
 
           emit(DashboardSuccess(data));
@@ -73,10 +77,12 @@ class DashboardData {
     required this.totalAuthorsCount,
     required this.totalInstitutionsCount,
     required this.totalConferencesCount,
+    required this.topCited,
   });
 
   final int totalPapersCount;
   final int totalAuthorsCount;
   final int totalInstitutionsCount;
   final int totalConferencesCount;
+  final List<PaperData> topCited;
 }

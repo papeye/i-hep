@@ -23,7 +23,7 @@ class HomeScreen extends HookWidget {
           onTap: (index) => HomeScreenTab.values[index].onTap(context),
           tabs: [
             for (final tab in HomeScreenTab.values)
-              Tab(icon: Icon(tab.iconData)),
+              Tab(icon: Icon(tab.iconData), text: tab.title),
           ],
         ),
       ),
@@ -48,6 +48,11 @@ enum HomeScreenTab {
   IconData get iconData => switch (this) {
         dashboard => Icons.dashboard,
         list => Icons.list,
+      };
+
+  String get title => switch (this) {
+        dashboard => 'dashboard',
+        list => 'most recent papers',
       };
 
   String get pathSegment => switch (this) {

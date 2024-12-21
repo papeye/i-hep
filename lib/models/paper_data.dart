@@ -3,6 +3,7 @@ class PaperData {
     required this.id,
     required this.authors,
     required this.titles,
+    required this.citations,
   });
 
   factory PaperData.fromJson(Map<String, dynamic> json) {
@@ -16,6 +17,7 @@ class PaperData {
       titles: (metadata['titles'] as List<dynamic>)
           .map((e) => (e as Map<String, dynamic>)['title'] as String)
           .toList(),
+      citations: metadata['citation_count_without_self_citations'] as int? ?? 0,
     );
   }
 
@@ -23,4 +25,5 @@ class PaperData {
 
   final List<String> authors;
   final List<String> titles;
+  final int citations;
 }
