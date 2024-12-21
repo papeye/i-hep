@@ -24,8 +24,8 @@ final router = GoRouter(
 
 extension Navigator on BuildContext {
   void goHome() => router.go('/');
-  void goPaper(Paper paper) => router.goNamed(
+  void goPaper(String id) => router.goNamed(
         'paper',
-        pathParameters: {'id': paper.id},
+        pathParameters: {'id': id},
       );
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:ihep/models/paper_data.dart';
 
 import '../models/paper.dart';
 
@@ -8,14 +9,14 @@ class IHepApiService {
 
   static const _baseUrl = 'https://inspirehep.net/api';
 
-  Future<List<Paper>> fetchTopCitedPapers({
+  Future<List<PaperData>> fetchTopCitedPapers({
     required int size,
     required int page,
   }) async {
     final client = http.Client();
     try {
       final url = Uri.parse(
-        '$_baseUrl/literature?sort=mostcited&size=$size&page=$page&q=topcite 10',
+        '$_baseUrl/literature?fields=titles,authors.full_name&sort=mostcited&size=$size&page=$page&q=topcite 10',
       );
 
       final response = await client.get(url);
@@ -25,7 +26,7 @@ class IHepApiService {
       final hits = data['hits'] as Map<String, dynamic>;
 
       final papers = (hits['hits'] as List<dynamic>)
-          .map((e) => Paper.fromJson(e as Map<String, dynamic>))
+          .map((e) => PaperData.fromJson(e as Map<String, dynamic>))
           .toList();
 
       return papers;
