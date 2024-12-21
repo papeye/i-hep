@@ -10,10 +10,20 @@ class DashboardBloc extends Bloc<PaperEvent, DashboardState> {
         emit(const DashboardLoading());
 
         try {
-          final paper = await _papersRepo.getTotalPapersCount();
+          // TODO Refactor fetches
+          final papersCount = await _papersRepo.getTotalPapersCount();
+
+          final authors = await _papersRepo.getTotalAuthorsCount();
+
+          final institutions = await _papersRepo.getTotalInstitutionsCount();
+
+          final conferences = await _papersRepo.getTotalConferencesCount();
 
           final data = DashboardData(
-            totalPapersCount: paper,
+            totalPapersCount: papersCount,
+            totalAuthorsCount: authors,
+            totalInstitutionsCount: institutions,
+            totalConferencesCount: conferences,
           );
 
           emit(DashboardSuccess(data));
@@ -60,7 +70,13 @@ class DashboardRequested extends PaperEvent {
 class DashboardData {
   const DashboardData({
     required this.totalPapersCount,
+    required this.totalAuthorsCount,
+    required this.totalInstitutionsCount,
+    required this.totalConferencesCount,
   });
 
   final int totalPapersCount;
+  final int totalAuthorsCount;
+  final int totalInstitutionsCount;
+  final int totalConferencesCount;
 }
