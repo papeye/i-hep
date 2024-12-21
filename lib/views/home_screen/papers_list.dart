@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper_data.dart';
-import 'package:ihep/router.dart';
 import 'package:ihep/shared/paper_data_tile.dart';
 
 class PapersList extends HookWidget {
@@ -15,6 +14,15 @@ class PapersList extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final page = useState(1);
+    final pageSize = useState(_defaultPageSize);
+
+    final switchSize = useCallback(
+      (int size) {
+        pageSize.value = size;
+        page.value = 1;
+      },
+      [pageSize, page],
+    );
 
     final nextPage = useCallback(() => page.value = page.value + 1, [page]);
     final previousPage = useCallback(() => page.value = page.value - 1, [page]);
@@ -24,11 +32,11 @@ class PapersList extends HookWidget {
     useEffect(
       () {
         bloc.add(
-          PapersFetchRequested(size: _defaultPageSize, page: page.value),
+          PapersFetchRequested(size: pageSize.value, page: page.value),
         );
         return null;
       },
-      [page.value],
+      [page.value, pageSize.value],
     );
 
     final state = useBlocState(bloc);
@@ -38,6 +46,7 @@ class PapersList extends HookWidget {
       child: Column(
         children: [
           const Text('Most recent papers', style: TextStyle(fontSize: 24)),
+          _ResultsPerPage(current: pageSize.value, onPressed: switchSize),
           const SizedBox(height: 16),
           Expanded(
             child: switch (state) {
@@ -57,6 +66,36 @@ class PapersList extends HookWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ResultsPerPage extends StatelessWidget {
+  const _ResultsPerPage({
+    required this.current,
+    required this.onPressed,
+  });
+
+  final int current;
+  final void Function(int size) onPressed;
+
+  static const _allowedSizes = [10, 20, 50];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('Results per page:'),
+        for (final size in _allowedSizes)
+          TextButton(
+            onPressed: () => onPressed(size),
+            child: Text(
+              '$size',
+              style: TextStyle(color: size == current ? Colors.blue : null),
+            ),
+          ),
+      ],
     );
   }
 }
