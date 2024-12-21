@@ -9,15 +9,26 @@ class IHepApiService {
 
   static const _baseUrl = 'https://inspirehep.net/api';
 
-  Future<List<PaperData>> fetchTopCitedPapers({
+  Uri _parseForPaperData({
     required int size,
-    required int page,
+    int page = 1,
+    required String sort,
+    String? query,
+  }) =>
+      Uri.parse(
+        '$_baseUrl/literature?sort=$sort&fields=titles,authors.full_name&size=$size&page=$page&q=${query ?? ''}',
+      );
+
+  Future<List<PaperData>> _fetchPaperData({
+    required String sort,
+    required int size,
+    int page = 1,
+    String? query,
   }) async {
     final client = http.Client();
     try {
-      final url = Uri.parse(
-        '$_baseUrl/literature?fields=titles,authors.full_name&sort=mostcited&size=$size&page=$page&q=topcite 10',
-      );
+      final url = _parseForPaperData(
+          size: size, sort: 'mostrecent', page: page, query: query);
 
       final response = await client.get(url);
 
@@ -35,6 +46,23 @@ class IHepApiService {
       rethrow;
     }
   }
+
+  Future<List<PaperData>> fetchMostRecentPapers(
+    int size,
+    int page,
+  ) =>
+      _fetchPaperData(sort: 'mostrecent', size: size, page: page);
+
+  Future<List<PaperData>> fetchTopCitedPapers1({
+    required int size,
+    required int page,
+  }) =>
+      _fetchPaperData(
+        sort: 'mostcited',
+        size: size,
+        page: page,
+        query: 'topcite 1000+',
+      );
 
   Future<Paper> fetchSpecific(String id) async {
     final client = http.Client();

@@ -11,10 +11,7 @@ class PapersRepository {
     int size = 10,
     int page = 1,
   }) =>
-      _apiService.fetchTopCitedPapers(
-        size: size,
-        page: page,
-      );
+      _apiService.fetchMostRecentPapers(size, page);
 
   Future<Paper> getSpecificPaper(String id) => _apiService.fetchSpecific(id);
 
