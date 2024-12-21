@@ -34,4 +34,23 @@ class IHepApiService {
       rethrow;
     }
   }
+
+  Future<Paper> fetchSpecific(String id) async {
+    final client = http.Client();
+
+    try {
+      final url = Uri.parse('$_baseUrl/literature/$id');
+
+      final response = await client.get(url);
+
+      final data = json.decode(response.body) as Map<String, dynamic>;
+
+      final paper = Paper.fromJson(data);
+
+      return paper;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
 }

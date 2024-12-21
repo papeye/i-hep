@@ -14,9 +14,9 @@ final router = GoRouter(
       path: '/paper/:id',
       name: 'paper',
       builder: (_, state) {
-        final paper = state.extra! as Paper;
+        final paperId = state.pathParameters['id']!;
 
-        return PaperScreen(paper);
+        return PaperScreen(paperId);
       },
     ),
   ],
@@ -27,6 +27,5 @@ extension Navigator on BuildContext {
   void goPaper(Paper paper) => router.goNamed(
         'paper',
         pathParameters: {'id': paper.id},
-        extra: paper,
       );
 }

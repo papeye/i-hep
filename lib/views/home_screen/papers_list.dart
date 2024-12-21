@@ -66,13 +66,13 @@ class _PapersList extends HookWidget {
         ),
         Expanded(
           child: switch (state) {
-            final PapersFetchInitial _ =>
+            PapersFetchInitial() =>
               const Center(child: CircularProgressIndicator()),
-            final PapersFetchLoading _ =>
+            PapersFetchLoading() =>
               const Center(child: CircularProgressIndicator()),
-            final PapersFetchFailure state =>
-              Center(child: Text('Error: $state.error')),
-            final PapersFetchSuccess state => _PaperListBody(state.papers),
+            PapersFetchFailure(:final error) =>
+              Center(child: Text('Error: $error')),
+            PapersFetchSuccess(:final papers) => _PaperListBody(papers),
           },
         ),
       ],

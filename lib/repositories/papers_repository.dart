@@ -14,4 +14,6 @@ class PapersRepository {
         size: size,
         page: page,
       );
+
+  Future<Paper> getSpecificPaper(String id) => _apiService.fetchSpecific(id);
 }
