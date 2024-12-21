@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ihep/blocs/paper_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper.dart';
@@ -14,7 +15,13 @@ class PaperScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(paperId)),
+      appBar: AppBar(
+        title: Text(paperId),
+        leading: IconButton(
+          onPressed: context.pop,
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
       body: _PaperScreenBody(paperId),
     );
   }
@@ -52,38 +59,39 @@ class _PaperScreenSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Wrap(
-            children: [
-              Text(
-                paper.title,
-                style: const TextStyle(fontSize: 18),
-              ),
-              const SizedBox(width: 8),
-              if (paper.metadata.inspireCategories.isNotEmpty)
-                Text('[${paper.metadata.inspireCategories.join('; ')}]'),
-            ],
-          ),
-          Text(paper.metadata.authors.map((e) => e.fullName).join('; ')),
-          if (paper.metadata.dois.isNotEmpty)
-            Text.rich(
-              TextSpan(
-                text: 'DOI: ',
-                children: [
-                  TextSpan(text: paper.metadata.dois.first),
-                ],
-              ),
+    return ListView(
+      padding: const EdgeInsets.all(32),
+      children: [
+        Wrap(
+          children: [
+            Text(
+              paper.title,
+              style: const TextStyle(fontSize: 18),
             ),
-          if (paper.metadata.journalTitle.isNotEmpty)
-            Text(paper.metadata.journalTitle),
-          if (paper.metadata.abstracts.isNotEmpty)
-            Text(paper.metadata.abstracts.first),
-        ].spaced(16),
-      ),
+            const SizedBox(width: 8),
+            if (paper.metadata.inspireCategories.isNotEmpty)
+              Text('[${paper.metadata.inspireCategories.join('; ')}]'),
+          ],
+        ),
+        Text(paper.metadata.authors.map((e) => e.fullName).join('; ')),
+        if (paper.metadata.dois.isNotEmpty)
+          Text.rich(
+            TextSpan(
+              text: 'DOI: ',
+              children: [
+                TextSpan(text: paper.metadata.dois.first),
+              ],
+            ),
+          ),
+        if (paper.metadata.journalTitle.isNotEmpty)
+          Text(paper.metadata.journalTitle),
+        if (paper.metadata.abstracts.isNotEmpty)
+          Expanded(
+            child: SingleChildScrollView(
+              child: Text(paper.metadata.abstracts.first),
+            ),
+          ),
+      ].spaced(16),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper_data.dart';
+import 'package:ihep/router.dart';
 import 'package:ihep/shared/paper_data_tile.dart';
 
 class PapersList extends HookWidget {
@@ -83,18 +84,23 @@ class _ResultsPerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
       children: [
         const Text('Results per page:'),
-        for (final size in _allowedSizes)
-          TextButton(
-            onPressed: () => onPressed(size),
-            child: Text(
-              '$size',
-              style: TextStyle(color: size == current ? Colors.blue : null),
-            ),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (final size in _allowedSizes)
+              TextButton(
+                onPressed: () => onPressed(size),
+                child: Text(
+                  '$size',
+                  style: TextStyle(color: size == current ? Colors.blue : null),
+                ),
+              ),
+          ],
+        ),
       ],
     );
   }
@@ -142,7 +148,10 @@ class _PaperListBody extends StatelessWidget {
       itemCount: papers.length,
       padding: const EdgeInsets.all(32),
       separatorBuilder: (_, __) => const SizedBox(height: 8),
-      itemBuilder: (_, index) => PaperDataTile(papers[index]),
+      itemBuilder: (_, index) => PaperDataTile(
+        papers[index],
+        onTap: (_) => context.goPaperList(papers[index].id),
+      ),
     );
   }
 }

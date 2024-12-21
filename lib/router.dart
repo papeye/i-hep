@@ -7,36 +7,47 @@ final router = GoRouter(
   initialLocation: '/dashboard',
   routes: [
     GoRoute(
-      path: '/:pathSegment',
-      name: 'home',
-      builder: (_, state) {
-        final tab = HomeScreenTab.values.firstWhere(
-          (e) => state.pathParameters['pathSegment']! == e.pathSegment,
-        );
+      path: '/dashboard',
+      name: 'dashboard',
+      builder: (_, __) => const HomeScreen(HomeScreenTab.dashboard),
+      routes: [
+        GoRoute(
+          path: 'paper:id',
+          name: 'paperDashboard',
+          builder: (_, state) {
+            final paperId = state.pathParameters['id']!;
 
-        return HomeScreen(tab);
-      },
+            return PaperScreen(paperId);
+          },
+        ),
+      ],
     ),
     GoRoute(
-      path: '/paper/:id',
-      name: 'paper',
-      builder: (_, state) {
-        final paperId = state.pathParameters['id']!;
+      path: '/list',
+      name: 'list',
+      builder: (_, __) => const HomeScreen(HomeScreenTab.list),
+      routes: [
+        GoRoute(
+          path: 'paper:id',
+          name: 'paperList',
+          builder: (_, state) {
+            final paperId = state.pathParameters['id']!;
 
-        return PaperScreen(paperId);
-      },
+            return PaperScreen(paperId);
+          },
+        ),
+      ],
     ),
   ],
 );
 
 extension Navigator on BuildContext {
-  void goList() =>
-      router.goNamed('home', pathParameters: {'pathSegment': 'list'});
-  void goDashboard() =>
-      router.goNamed('home', pathParameters: {'pathSegment': 'dashboard'});
+  void goList() => router.goNamed('list');
+  void goDashboard() => router.goNamed('home');
 
-  void goPaper(String id) => router.goNamed(
-        'paper',
-        pathParameters: {'id': id},
-      );
+  void goPaperList(String id) =>
+      router.goNamed('paperList', pathParameters: {'id': id});
+
+  void goPaperDashboard(String id) =>
+      router.goNamed('paperDashboard', pathParameters: {'id': id});
 }
