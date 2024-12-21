@@ -15,7 +15,7 @@ class IHepApiService {
     final client = http.Client();
     try {
       final url = Uri.parse(
-        '$_baseUrl/literature?sort=mostrecent&size=$size&page=$page&q=topcite 10',
+        '$_baseUrl/literature?sort=mostcited&size=$size&page=$page&q=topcite 10',
       );
 
       final response = await client.get(url);
@@ -29,6 +29,25 @@ class IHepApiService {
           .toList();
 
       return papers;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<Paper> fetchSpecific(String id) async {
+    final client = http.Client();
+
+    try {
+      final url = Uri.parse('$_baseUrl/literature/$id');
+
+      final response = await client.get(url);
+
+      final data = json.decode(response.body) as Map<String, dynamic>;
+
+      final paper = Paper.fromJson(data);
+
+      return paper;
     } catch (e) {
       print(e);
       rethrow;

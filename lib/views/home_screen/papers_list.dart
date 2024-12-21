@@ -5,6 +5,7 @@ import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper.dart';
 import 'package:ihep/repositories/papers_repository.dart';
+import 'package:ihep/router.dart';
 import 'package:ihep/services/ihep_service.dart';
 
 class PapersList extends StatelessWidget {
@@ -65,13 +66,13 @@ class _PapersList extends HookWidget {
         ),
         Expanded(
           child: switch (state) {
-            final PapersFetchInitial _ =>
+            PapersFetchInitial() =>
               const Center(child: CircularProgressIndicator()),
-            final PapersFetchLoading _ =>
+            PapersFetchLoading() =>
               const Center(child: CircularProgressIndicator()),
-            final PapersFetchFailure state =>
-              Center(child: Text('Error: $state.error')),
-            final PapersFetchSuccess state => _PaperListBody(state.papers),
+            PapersFetchFailure(:final error) =>
+              Center(child: Text('Error: $error')),
+            PapersFetchSuccess(:final papers) => _PaperListBody(papers),
           },
         ),
       ],
@@ -103,6 +104,7 @@ class _PaperTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () => context.goPaper(paper),
       tileColor: Colors.grey[200],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(paper.metadata.titles.first),
