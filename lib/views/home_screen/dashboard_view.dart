@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ihep/blocs/dashboard_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
+import 'package:ihep/router.dart';
 import 'package:ihep/shared/paper_data_tile.dart';
 import 'package:ihep/utils/spaced.dart';
 
@@ -81,6 +82,7 @@ class _DashboardViewBody extends StatelessWidget {
             width: 400,
             child: PaperDataTile(
               paper,
+              onTap: (paper) => context.goPaperDashboard(paper.id),
               showCitations: true,
             ),
           ),

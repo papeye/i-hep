@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ihep/models/paper_data.dart';
-import 'package:ihep/router.dart';
 
 class PaperDataTile extends StatelessWidget {
   const PaperDataTile(
     this.paper, {
+    required this.onTap,
     this.showCitations = false,
     super.key,
   });
 
   final PaperData paper;
   final bool showCitations;
+  final void Function(PaperData) onTap;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: ListTile(
-        onTap: () => context.goPaper(paper.id),
+        onTap: () => onTap(paper),
         tileColor: Colors.white30,
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.deepPurple),
