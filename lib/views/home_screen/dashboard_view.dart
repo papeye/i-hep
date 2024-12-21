@@ -40,40 +40,42 @@ class _DashboardViewBody extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(32),
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('IHEP databse contains astonishing amount of'),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _TitleWithNumber(
-                    title: 'papers',
-                    number: data.totalPapersCount,
-                  ),
-                  _TitleWithNumber(
-                    title: 'authors',
-                    number: data.totalAuthorsCount,
-                  ),
-                  _TitleWithNumber(
-                    title: 'institutions',
-                    number: data.totalInstitutionsCount,
-                  ),
-                  _TitleWithNumber(
-                    title: 'conferences',
-                    number: data.totalConferencesCount,
-                  ),
-                ].spaced(8),
+        Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('IHEP databse contains astonishing amount of'),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _TitleWithNumber(
+                      title: 'papers',
+                      number: data.totalPapersCount,
+                    ),
+                    _TitleWithNumber(
+                      title: 'authors',
+                      number: data.totalAuthorsCount,
+                    ),
+                    _TitleWithNumber(
+                      title: 'institutions',
+                      number: data.totalInstitutionsCount,
+                    ),
+                    _TitleWithNumber(
+                      title: 'conferences',
+                      number: data.totalConferencesCount,
+                    ),
+                  ].spaced(8),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const SizedBox(height: 32),
         const Text(
-          'Top cited papers:',
+          'Top cited papers',
           style: TextStyle(fontSize: 24),
         ),
         const SizedBox(height: 16),
