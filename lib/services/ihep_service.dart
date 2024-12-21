@@ -54,4 +54,24 @@ class IHepApiService {
       rethrow;
     }
   }
+
+  Future<int> fetchTotalPapersCount() async {
+    final client = http.Client();
+
+    try {
+      final url = Uri.parse('$_baseUrl/literature?fields=none&size=1');
+
+      final response = await client.get(url);
+
+      final data = (json.decode(response.body) as Map<String, dynamic>)['hits']
+          as Map<String, dynamic>;
+
+      final total = data['total'] as int;
+
+      return total;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
 }

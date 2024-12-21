@@ -17,4 +17,6 @@ class PapersRepository {
       );
 
   Future<Paper> getSpecificPaper(String id) => _apiService.fetchSpecific(id);
+
+  Future<int> getTotalPapersCount() => _apiService.fetchTotalPapersCount();
 }
