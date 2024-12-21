@@ -18,7 +18,7 @@ class IHepApiService {
     final client = http.Client();
     try {
       final url = Uri.parse(
-        '$_baseUrl/literature?sort=$sort&fields=titles,authors.full_name&size=$size&page=$page&q=${query ?? ''}',
+        '$_baseUrl/literature?sort=$sort&fields=titles,authors.full_name,citation_count_without_self_citations&size=$size&page=$page&q=${query ?? ''}',
       );
 
       final response = await client.get(url);
@@ -48,7 +48,6 @@ class IHepApiService {
       _fetchPaperData(
         sort: 'mostcited',
         size: size,
-        query: 'topcite 1000+',
       );
 
   Future<Paper> fetchSpecific(String id) async {

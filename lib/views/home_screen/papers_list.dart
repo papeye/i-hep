@@ -5,6 +5,7 @@ import 'package:ihep/blocs/papers_bloc.dart';
 import 'package:ihep/hooks/use_bloc.dart';
 import 'package:ihep/models/paper_data.dart';
 import 'package:ihep/router.dart';
+import 'package:ihep/shared/paper_data_tile.dart';
 
 class PapersList extends HookWidget {
   const PapersList({super.key});
@@ -101,30 +102,7 @@ class _PaperListBody extends StatelessWidget {
       itemCount: papers.length,
       padding: const EdgeInsets.all(32),
       separatorBuilder: (_, __) => const SizedBox(height: 8),
-      itemBuilder: (_, index) => _PaperTile(papers[index]),
-    );
-  }
-}
-
-class _PaperTile extends StatelessWidget {
-  const _PaperTile(this.paper);
-
-  final PaperData paper;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: ListTile(
-        onTap: () => context.goPaper(paper.id),
-        tileColor: Colors.grey[200],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        title: Text(paper.titles.first),
-        subtitle: Text(
-          paper.authors.join('; '),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
-      ),
+      itemBuilder: (_, index) => PaperDataTile(papers[index]),
     );
   }
 }
