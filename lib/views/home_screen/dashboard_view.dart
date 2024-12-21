@@ -36,29 +36,39 @@ class _DashboardViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return ListView(
+      padding: const EdgeInsets.all(32),
       children: [
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _TitleWithNumber(
-              title: 'Total papers',
-              number: data.totalPapersCount,
+            const Text('IHEP databse contains astonishing amount of'),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _TitleWithNumber(
+                    title: 'papers',
+                    number: data.totalPapersCount,
+                  ),
+                  _TitleWithNumber(
+                    title: 'authors',
+                    number: data.totalAuthorsCount,
+                  ),
+                  _TitleWithNumber(
+                    title: 'institutions',
+                    number: data.totalInstitutionsCount,
+                  ),
+                  _TitleWithNumber(
+                    title: 'conferences',
+                    number: data.totalConferencesCount,
+                  ),
+                ].spaced(8),
+              ),
             ),
-            _TitleWithNumber(
-              title: 'Total authors',
-              number: data.totalAuthorsCount,
-            ),
-            _TitleWithNumber(
-              title: 'Total institutions',
-              number: data.totalInstitutionsCount,
-            ),
-            _TitleWithNumber(
-              title: 'Total conferences',
-              number: data.totalConferencesCount,
-            ),
-          ].spaced(8),
+          ],
         ),
         const SizedBox(height: 32),
         const Text(
@@ -93,16 +103,41 @@ class _TitleWithNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(
-        text: title,
-        children: [
-          const TextSpan(text: ': '),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const _Bullet(),
+        const SizedBox(width: 8),
+        Text.rich(
           TextSpan(
-            text: '$number',
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            children: [
+              TextSpan(
+                text: '$number',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const TextSpan(text: ' '),
+              TextSpan(text: title),
+            ],
           ),
-        ],
+        ),
+      ],
+    );
+  }
+}
+
+class _Bullet extends StatelessWidget {
+  const _Bullet({super.key});
+
+  static const _size = 6.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: _size,
+      height: _size,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.deepPurple,
       ),
     );
   }

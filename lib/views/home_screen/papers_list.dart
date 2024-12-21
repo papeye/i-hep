@@ -42,7 +42,7 @@ class PapersList extends HookWidget {
     final state = useBlocState(bloc);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 32, top: 16),
+      padding: const EdgeInsets.only(bottom: 8, top: 16),
       child: Column(
         children: [
           const Text('Most recent papers', style: TextStyle(fontSize: 24)),
@@ -116,10 +116,11 @@ class _PageSwitcher extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        IconButton(
-          onPressed: previousPage,
-          icon: const Icon(Icons.arrow_back),
-        ),
+        if (page > 1)
+          IconButton(
+            onPressed: previousPage,
+            icon: const Icon(Icons.arrow_back),
+          ),
         Text('Page: $page'),
         IconButton(
           onPressed: nextPage,
