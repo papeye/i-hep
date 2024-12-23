@@ -14,25 +14,30 @@ class Metadata {
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) {
-    final authors = (json['authors'] as List<dynamic>)
-        .map((e) => Author.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final authors = (json['authors'] as List<dynamic>?)
+            ?.map((e) => Author.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        [];
 
-    final titles = (json['titles'] as List<dynamic>)
-        .map((e) => (e as Map<String, dynamic>)['title'] as String)
-        .toList();
+    final titles = (json['titles'] as List<dynamic>?)
+            ?.map((e) => (e as Map<String, dynamic>)['title'] as String)
+            .toList() ??
+        [];
 
-    final abstracts = (json['abstracts'] as List<dynamic>)
-        .map((e) => (e as Map<String, dynamic>)['value'] as String)
-        .toList();
+    final abstracts = (json['abstracts'] as List<dynamic>?)
+            ?.map((e) => (e as Map<String, dynamic>)['value'] as String)
+            .toList() ??
+        [];
 
-    final dois = (json['dois'] as List<dynamic>)
-        .map((e) => (e as Map<String, dynamic>)['value'] as String)
-        .toList();
+    final dois = (json['dois'] as List<dynamic>?)
+            ?.map((e) => (e as Map<String, dynamic>)['value'] as String)
+            .toList() ??
+        [];
 
-    final inspireCategories = (json['inspire_categories'] as List<dynamic>)
-        .map((e) => (e as Map<String, dynamic>)['term'] as String)
-        .toList();
+    final inspireCategories = (json['inspire_categories'] as List<dynamic>?)
+            ?.map((e) => (e as Map<String, dynamic>)['term'] as String)
+            .toList() ??
+        [];
 
     return Metadata._(
       authors: authors,
